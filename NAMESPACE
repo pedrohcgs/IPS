@@ -1,0 +1,20 @@
+useDynLib(IPS, .registration=TRUE)
+importFrom(Rcpp, evalCpp)
+export(ATE)
+export(ATT)
+export(DTE)
+export(DTT)
+export(QTE)
+export(QTT)
+
+export(LATE)
+export(LDTE)
+export(LQTE)
+
+export(IPS_exp)
+export(IPS_ind)
+export(IPS_proj)
+
+export(LIPS_exp)
+export(LIPS_ind)
+export(LIPS_proj)
