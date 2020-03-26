@@ -4,8 +4,16 @@
 \alias{LIPS_exp}
 \title{'Local' Integrated Propensity Score estimator based on exponential weighting function}
 \usage{
-LIPS_exp(z, d, x, X.trans = "normal", beta.initial = NULL,
-  lin.rep = TRUE, whs = NULL, maxit = 50000)
+LIPS_exp(
+  z,
+  d,
+  x,
+  X.trans = "normal",
+  beta.initial = NULL,
+  lin.rep = TRUE,
+  whs = NULL,
+  maxit = 50000
+)
 }
 \arguments{
 \item{z}{An \eqn{n} x \eqn{1} vector of binary instruments.}

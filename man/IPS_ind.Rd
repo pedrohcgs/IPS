@@ -4,8 +4,15 @@
 \alias{IPS_ind}
 \title{Integrated Propensity Score estimator based on indicator weighting function}
 \usage{
-IPS_ind(d, x, Treated = FALSE, beta.initial = NULL, lin.rep = TRUE,
-  whs = NULL, maxit = 50000)
+IPS_ind(
+  d,
+  x,
+  Treated = FALSE,
+  beta.initial = NULL,
+  lin.rep = TRUE,
+  whs = NULL,
+  maxit = 50000
+)
 }
 \arguments{
 \item{d}{An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.}

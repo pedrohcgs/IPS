@@ -1,5 +1,6 @@
 useDynLib(IPS, .registration=TRUE)
 importFrom(Rcpp, evalCpp)
+importFrom(plyr, count)
 export(ATE)
 export(ATT)
 export(DTE)

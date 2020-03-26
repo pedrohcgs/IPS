@@ -37,7 +37,7 @@ weightIPSproj <- function(X) {
     .Call(`_IPS_weightIPSproj`, X)
 }
 
-weightIPSproj_vec <- function(X) {
-    .Call(`_IPS_weightIPSproj_vec`, X)
+weightIPSproj_uniq <- function(X, wgt) {
+    .Call(`_IPS_weightIPSproj_uniq`, X, wgt)
 }
 

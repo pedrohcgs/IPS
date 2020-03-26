@@ -4,8 +4,17 @@
 \alias{DTE}
 \title{IPW estimator for the Distributional Treatment Effect}
 \usage{
-DTE(y, d, x, ps, beta.lin.rep, ysup = NULL, trim = FALSE,
-  trim.at = NULL, whs = NULL)
+DTE(
+  y,
+  d,
+  x,
+  ps,
+  beta.lin.rep,
+  ysup = NULL,
+  trim = FALSE,
+  trim.at = NULL,
+  whs = NULL
+)
 }
 \arguments{
 \item{y}{An \eqn{n} x \eqn{1} vector of outcome of interest.}

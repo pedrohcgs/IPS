@@ -4,8 +4,7 @@
 \alias{LATE}
 \title{IPW estimator for the Local Average Treatment Effect}
 \usage{
-LATE(y, z, d, x, ps, beta.lin.rep, trim = FALSE, trim.at = NULL,
-  whs = NULL)
+LATE(y, z, d, x, ps, beta.lin.rep, trim = FALSE, trim.at = NULL, whs = NULL)
 }
 \arguments{
 \item{y}{An \eqn{n} x \eqn{1} vector of outcome of interest.}

@@ -4,8 +4,18 @@
 \alias{QTE}
 \title{IPW estimator for the Quantile Treatment Effect}
 \usage{
-QTE(y, d, x, ps, beta.lin.rep, tau = 0.5, bw = "nrd0", trim = FALSE,
-  trim.at = NULL, whs = NULL)
+QTE(
+  y,
+  d,
+  x,
+  ps,
+  beta.lin.rep,
+  tau = 0.5,
+  bw = "nrd0",
+  trim = FALSE,
+  trim.at = NULL,
+  whs = NULL
+)
 }
 \arguments{
 \item{y}{An \eqn{n} x \eqn{1} vector of outcome of interest.}

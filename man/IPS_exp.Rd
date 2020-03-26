@@ -4,8 +4,16 @@
 \alias{IPS_exp}
 \title{Integrated Propensity Score estimator based on exponential weighting function}
 \usage{
-IPS_exp(d, x, X.trans = "normal", Treated = FALSE,
-  beta.initial = NULL, lin.rep = TRUE, whs = NULL, maxit = 50000)
+IPS_exp(
+  d,
+  x,
+  X.trans = "normal",
+  Treated = FALSE,
+  beta.initial = NULL,
+  lin.rep = TRUE,
+  whs = NULL,
+  maxit = 50000
+)
 }
 \arguments{
 \item{d}{An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.}

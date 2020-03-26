@@ -4,16 +4,20 @@ using namespace Rcpp;
 
 
 // [[Rcpp::export]]
-NumericMatrix weightIPSproj(const NumericMatrix& X){
-  int n = X.nrow();
+NumericMatrix weightIPSproj_uniq(const NumericMatrix& X, const NumericVector& wgt){
+  int n_uniq = X.nrow();
   int k = X.ncol();
+  NumericVector cum_wgt = cumsum(wgt);
+  cum_wgt.push_front(0);
+  int nobj = cum_wgt(n_uniq);
+  
   double xjl;
   double xjr;
   double xlr;
   double idxjl;
   double arg;
   double argbdd;
-  NumericMatrix omega(n,n);
+  NumericMatrix omega(nobj, nobj);
   double out;
   
   xjl = 0.0;
@@ -24,9 +28,9 @@ NumericMatrix weightIPSproj(const NumericMatrix& X){
   arg = 0.0;
   argbdd = 0.0;
   
-  for (int j = 0;  j<n; j++ ){
+  for (int j = 0;  j<n_uniq; j++ ){
     for (int l = 0;  l<=j; l++ ){
-      for (int r = 0;  r< n; r++ ){
+      for (int r = 0;  r< n_uniq; r++ ){
         for (int s = 0; s < k; s++){
           xjl += (X(j,s) - X(r,s))*(X(l,s) - X(r,s));
           xjr += (X(j,s) - X(r,s))*(X(j,s) - X(r,s));
@@ -35,7 +39,7 @@ NumericMatrix weightIPSproj(const NumericMatrix& X){
         }
         
         if ((xlr == 0.0) && (xjr == 0.0)){
-          out +=  2.0L * M_PI; }
+          out +=  2.0L * M_PI * wgt(r); }
         else if (((xlr != 0.0) && (xjr != 0.0)) && (idxjl != 0.0)){
           arg = (xjl / (sqrt(xjr)*sqrt(xlr)));
           if (arg > double(-1.0)){
@@ -47,26 +51,34 @@ NumericMatrix weightIPSproj(const NumericMatrix& X){
           } else {
             argbdd = -1.0;
           }
-          out += fabs(M_PI - acos(argbdd));
+          out += fabs(M_PI - acos(argbdd)) * wgt(r);
           arg = 0.0;
           argbdd = 0.0;
         }
         else {
-          out +=  M_PI; }
+          out +=  M_PI * wgt(r); }
         xjl = 0.0;
         xjr = 0.0;
         xlr = 0.0;
         idxjl = 0.0;
       }
-      omega(j,l) = out;
-      omega(l,j) = out;
+      
+      
+      
+      for (int bb = cum_wgt(j);  bb<= (cum_wgt(j+1)-1); bb++ ){
+        for (int cc = cum_wgt(l);  cc<= (cum_wgt(l+1)-1); cc++ ){
+        omega(bb, cc) = out;
+        omega(cc, bb) = out;
+      }
+    }
+      
       out = 0.0;
     }
-
+    
   }
   
   
-  return omega/n;
+  return omega/nobj;
 }
 
 

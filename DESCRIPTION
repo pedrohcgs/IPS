@@ -1,12 +1,12 @@
 Package: IPS
 Type: Package
 Title: IPS: Covariate Distribution Balance via Integrated Propensity Scores
-Version: 0.1.1
-Date: 2019-11-14
+Version: 0.1.2
+Date: 2020-03-25
 Author: Pedro H. C. Sant'Anna <pedro.h.santanna@vanderbilt.edu>, Xiaojun Song
     <sxj@gsm.pku.edu.cn>, Qi Xu <qi.xu.1@vanderbilt.edu>
 Maintainer: Pedro H. C. Sant'Anna <pedro.h.santanna@vanderbilt.edu>
-Description:     This package implements the different integrated propensity score (IPS) estimators proposed by Sant'Anna, Song and Xu (2019), Covariate Distribution Balance via Propensity Scores, <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3258551>, and also the inverse probabily weigthed (IPW) estimators for the average, quantile and distributional treatment effects that build on these IPS estimators.
+Description: This package implements the different integrated propensity score (IPS) estimators proposed by Sant'Anna, Song and Xu (2019), Covariate Distribution Balance via Propensity Scores, <https://papers.ssrn.com/sol3/papers.cfm?abstract_id=3258551>, and also the inverse probabily weigthed (IPW) estimators for the average, quantile and distributional treatment effects that build on these IPS estimators.
     The IPS is estimated by fully exploiting the covariate balancing of the propensity score, i.e., by maximing the entire covariate distribution balance between the treated, untreated, and  combined groups. The IPS estimators are data-driven, do not rely on tuning parameters such  as bandwidths, and admit an asymptotic linear representation, which, in turn, facilitates  the statistical analysis of IPW estimators for the average, quantile and distributional treatment effects.
     We emphasize that the IPS can be used under different "research designs", including not only the unconfounded treatment assignment setup, but also the "local treatment effect" setup, where selection into treatment is possibly endogenous but a binary instrumental variable is available, see Sant'Anna, Song and Xu (2019) for further details. 
 License: GPL-3
@@ -19,7 +19,9 @@ Imports:
     stats,
     pracma,
     dplyr,
-    Rearrangement
+    Rearrangement,
+    data.table,
+    plyr
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
-RoxygenNote: 6.1.1.9000
+RoxygenNote: 7.0.2

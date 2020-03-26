@@ -128,24 +128,25 @@ BEGIN_RCPP
 END_RCPP
 }
 // weightIPSproj
-arma::mat weightIPSproj(arma::mat& X);
+NumericMatrix weightIPSproj(const NumericMatrix& X);
 RcppExport SEXP _IPS_weightIPSproj(SEXP XSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type X(XSEXP);
     rcpp_result_gen = Rcpp::wrap(weightIPSproj(X));
     return rcpp_result_gen;
 END_RCPP
 }
-// weightIPSproj_vec
-arma::vec weightIPSproj_vec(arma::mat X);
-RcppExport SEXP _IPS_weightIPSproj_vec(SEXP XSEXP) {
+// weightIPSproj_uniq
+NumericMatrix weightIPSproj_uniq(const NumericMatrix& X, const NumericVector& wgt);
+RcppExport SEXP _IPS_weightIPSproj_uniq(SEXP XSEXP, SEXP wgtSEXP) {
 BEGIN_RCPP
     Rcpp::RObject rcpp_result_gen;
     Rcpp::RNGScope rcpp_rngScope_gen;
-    Rcpp::traits::input_parameter< arma::mat >::type X(XSEXP);
-    rcpp_result_gen = Rcpp::wrap(weightIPSproj_vec(X));
+    Rcpp::traits::input_parameter< const NumericMatrix& >::type X(XSEXP);
+    Rcpp::traits::input_parameter< const NumericVector& >::type wgt(wgtSEXP);
+    rcpp_result_gen = Rcpp::wrap(weightIPSproj_uniq(X, wgt));
     return rcpp_result_gen;
 END_RCPP
 }
@@ -160,7 +161,7 @@ static const R_CallMethodDef CallEntries[] = {
     {"_IPS_weightIPSexp", (DL_FUNC) &_IPS_weightIPSexp, 2},
     {"_IPS_weightIPSind", (DL_FUNC) &_IPS_weightIPSind, 1},
     {"_IPS_weightIPSproj", (DL_FUNC) &_IPS_weightIPSproj, 1},
-    {"_IPS_weightIPSproj_vec", (DL_FUNC) &_IPS_weightIPSproj_vec, 1},
+    {"_IPS_weightIPSproj_uniq", (DL_FUNC) &_IPS_weightIPSproj_uniq, 2},
     {NULL, NULL, 0}
 };
 

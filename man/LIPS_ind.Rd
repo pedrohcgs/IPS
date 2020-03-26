@@ -4,8 +4,15 @@
 \alias{LIPS_ind}
 \title{'Local' Integrated Propensity Score estimator based on indicator weighting function}
 \usage{
-LIPS_ind(z, d, x, beta.initial = NULL, lin.rep = TRUE, whs = NULL,
-  maxit = 50000)
+LIPS_ind(
+  z,
+  d,
+  x,
+  beta.initial = NULL,
+  lin.rep = TRUE,
+  whs = NULL,
+  maxit = 50000
+)
 }
 \arguments{
 \item{z}{An \eqn{n} x \eqn{1} vector of binary instruments.}

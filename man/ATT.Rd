@@ -4,8 +4,7 @@
 \alias{ATT}
 \title{IPW estimator for the Average Treatment Effect on the Treated}
 \usage{
-ATT(y, d, x, ps, beta.lin.rep, trim = FALSE, trim.at = NULL,
-  whs = NULL)
+ATT(y, d, x, ps, beta.lin.rep, trim = FALSE, trim.at = NULL, whs = NULL)
 }
 \arguments{
 \item{y}{An \eqn{n} x \eqn{1} vector of outcome of interest.}

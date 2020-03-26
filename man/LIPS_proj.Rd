@@ -4,8 +4,16 @@
 \alias{LIPS_proj}
 \title{'Local' Integrated Propensity Score estimator based on projection weighting function}
 \usage{
-LIPS_proj(z, d, x, beta.initial = NULL, lin.rep = TRUE, whs = NULL,
-  maxit = 50000)
+LIPS_proj(
+  z,
+  d,
+  x,
+  beta.initial = NULL,
+  lin.rep = TRUE,
+  whs = NULL,
+  maxit = 50000,
+  allRows = F
+)
 }
 \arguments{
 \item{z}{An \eqn{n} x \eqn{1} vector of binary instruments.}
@@ -22,6 +30,8 @@ parameters should be provided. Deafault is TRUE.}
 \item{whs}{An optional \eqn{n} x \eqn{1} vector of weights to be used. If NULL, then every observation has the same weights.}
 
 \item{maxit}{The maximum number of iterations. Defaults to 50000.  = FALSE). Deafault is 999 if boot = TRUE}
+
+\item{allRows}{Default is FALSE, which attempts to fist check if all rows of the matrix x are unique. If there are draws, it tries to optimize the code, but requires 'x' to be sorted such that all unique rows are together.}
 }
 \value{
 A list containing the following components:

@@ -10,7 +10,8 @@
 #' @param lin.rep Logical argument to whether an estimator for the asymptotic linear representation of the IPS
 #' parameters should be provided. Deafault is TRUE.
 #' @param whs An optional \eqn{n} x \eqn{1} vector of weights to be used. If NULL, then every observation has the same weights.
-#' @param maxit The maximum number of iterations. Defaults to 50000.  = FALSE). Deafault is 999 if boot = TRUE
+#' @param maxit The maximum number of iterations. Defaults to 50000
+#' @param allRows Default is FALSE, which attempts to fist check if all rows of the matrix x are unique. If there are draws, it tries to optimize the code, but requires 'x' to be sorted such that all unique rows are together. 
 #'
 #' @return A list containing the following components:
 #' \item{coefficients}{The estimated IPS_proj coefficients}
@@ -31,7 +32,8 @@
 IPS_proj = function(d, x, Treated = FALSE,
                     beta.initial = NULL, lin.rep = TRUE,
                     whs = NULL,
-                    maxit = 50000) {
+                    maxit = 50000,
+                    allRows = F) {
   #-----------------------------------------------------------------------------
   # Define some underlying variables
   d <-  base::as.matrix(d)
@@ -52,20 +54,22 @@ IPS_proj = function(d, x, Treated = FALSE,
   data_ips <- cbind(d,x)
   
   # Test if all observations are unique, as this allow us to speed up the codes
-  
-  if(dplyr::n_distinct(data_ips) != (dim(data_ips)[1])) {
-    # If rows of the data matrix are not unique, then use our "slower" codes
-    w.proj <- weightIPSproj(x) 
+  n.unique <- dplyr::n_distinct(x) 
+  if( (n.unique != n) &&  allRows == F) {
+    #   use code that avoid number double calculations
+    x1 <- data.table::data.table(x)
+    x1 <- data.table::data.table(x1, key = colnames(x1))
+    if(max(abs(x-x1))>0) {
+      stop("Matrix 'x' must be sorted such that all unique rows are together./n Otherwise set 'uniqueRows = T', though is usually slower.")
+    }
+    x_unique <- as.matrix(plyr::count(x1)[,-(dim(x1)[2]+1)])
+    vec_rep  <- as.vector(plyr::count(x1)[,(dim(x1)[2]+1)])
+    w.proj <- weightIPSproj_uniq(x_unique, vec_rep) 
     
-  } else {
-    #Faster codes for the case of rows being unique
-    w.proj.vec <- weightIPSproj_vec(x)
-    w.proj <- diag(rep(w.proj.vec[1], n))
-    w.proj[upper.tri(w.proj, diag = FALSE)] <- w.proj.vec[-1]
-    w.proj <- (t(w.proj) + w.proj - diag(diag(w.proj)))/n
   }
-  
-  
+  else {
+    w.proj <- weightIPSproj(x)
+  }
   
   #-----------------------------------------------------------------------------
   # initial parameter value for IPS
