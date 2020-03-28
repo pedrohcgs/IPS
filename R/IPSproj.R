@@ -55,7 +55,8 @@ IPS_proj = function(d, x, Treated = FALSE,
   
   # Test if all observations are unique, as this allow us to speed up the codes
   n.unique <- dplyr::n_distinct(x) 
-  if( (n.unique != n) &&  allRows == F) {
+  
+  if( ((n - n.unique) > 500) &&  allRows == F) {
     #   use code that avoid number double calculations
     x1 <- data.table::data.table(x)
     x1 <- data.table::data.table(x1, key = colnames(x1))
