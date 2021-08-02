@@ -44,7 +44,7 @@ LIPS_ind = function(z, d, x,
   if(!is.numeric(whs)) base::stop("weights must be a NULL or a numeric vector")
   #-----------------------------------------------------------------------------
   # FIRST ELEMENT OF X MUST BE A CONSTANT
-  if(all.equal(x[,1], rep(1,n)) == F) {
+  if(all.equal(x[,1], rep(1,n)) == FALSE) {
     stop(" first element of x must be a vector of 1's")
   }
   #-----------------------------------------------------------------------------
@@ -95,7 +95,7 @@ LIPS_ind = function(z, d, x,
   if (lin.rep == TRUE){
     lin.rep.hat <- linLIPS(beta.hat.ips, d, z, ips.hat, x, w.ind, whs)
     covSing <- (Matrix::rankMatrix(base::crossprod(lin.rep.hat))[1] == base::dim(lin.rep.hat)[2])
-    if(covSing==F) base::message("Lips.ind: The variance-Covariance matrix is close to singular. Used Generalized-Inverse to compute std. errors.")
+    if(covSing==FALSE) base::message("Lips.ind: The variance-Covariance matrix is close to singular. Used Generalized-Inverse to compute std. errors.")
     
   }
   

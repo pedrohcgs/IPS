@@ -6,6 +6,11 @@
 
 using namespace Rcpp;
 
+#ifdef RCPP_USE_GLOBAL_ROSTREAM
+Rcpp::Rostream<true>&  Rcpp::Rcout = Rcpp::Rcpp_cout_get();
+Rcpp::Rostream<false>& Rcpp::Rcerr = Rcpp::Rcpp_cerr_get();
+#endif
+
 // gradIPS
 arma::vec gradIPS(arma::vec b, arma::vec d, arma::mat& X, arma::mat& w, double treated_flag, arma::vec whs);
 RcppExport SEXP _IPS_gradIPS(SEXP bSEXP, SEXP dSEXP, SEXP XSEXP, SEXP wSEXP, SEXP treated_flagSEXP, SEXP whsSEXP) {

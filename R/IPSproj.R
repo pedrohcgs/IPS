@@ -46,7 +46,7 @@ IPS_proj = function(d, x, Treated = FALSE,
   if(!is.numeric(whs)) base::stop("weights must be a NULL or a numeric vector")
   #-----------------------------------------------------------------------------
   # FIRST ELEMENT OF X MUST BE A CONSTANT
-  if(all.equal(x[,1], rep(1,n)) == F) {
+  if(all.equal(x[,1], rep(1,n)) == FALSE) {
     stop(" first element of x must be a vector of 1's")
   }
   #-----------------------------------------------------------------------------
@@ -117,7 +117,7 @@ IPS_proj = function(d, x, Treated = FALSE,
   if (lin.rep == TRUE){
     lin.rep.hat <- linIPS(beta.hat.ips, d, ps.hat, x, w.proj, treated.flag, whs)
     covSing <- (Matrix::rankMatrix(base::crossprod(lin.rep.hat))[1] == base::dim(lin.rep.hat)[2])
-    if(covSing==F) base::message("IPS.proj: The variance-Covariance matrix is close to singular. Used Generalized-Inverse to compute std. errors.")
+    if(covSing==FALSE) base::message("IPS.proj: The variance-Covariance matrix is close to singular. Used Generalized-Inverse to compute std. errors.")
     
   }
   if(converged!=0) base::warning("IPS.proj: IPS optmization did not converge.")

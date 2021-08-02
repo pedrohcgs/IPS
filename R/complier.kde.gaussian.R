@@ -1,13 +1,10 @@
-complier.kde.gaussian <- function(x, p.eval, bw = NULL, adjust = 1,
+complier.kde.gaussian <- function(x, p.eval, bw = "nrd0", adjust = 1,
                                   whs = NULL, gaussian=TRUE,
                                   ...) {
   n <- length(x)
   if(is.null(whs)) whs <- rep(1, n)
   
-  if(is.null(bw)) {
-    bw <- stats::bw.nrd0(x)
-  }
-  
+ 
   if(bw == "nrd0"){
     bw <- stats::bw.nrd0(x)
   } else if(bw == "nrd"){
