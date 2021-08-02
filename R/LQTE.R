@@ -180,9 +180,9 @@ LQTE <- function(y, z, d, x, ps, beta.lin.rep, tau = 0.5, bw = "nrd0",
     
 
     # Compute kernel density
-    f1.c <- complier.kde.gaussian(y, lq1.hat, whs = w1c, gaussian = T)
+    f1.c <- complier.kde.gaussian(y, lq1.hat, bw = bw, whs = w1c, gaussian = T)
     f1.c <- base::pmax(f1.c, .1/n)
-    f0.c <-  complier.kde.gaussian(y, lq0.hat, whs = w0c, gaussian = T)
+    f0.c <-  complier.kde.gaussian(y, lq0.hat, bw = bw, whs = w0c, gaussian = T)
     f0.c <- base::pmax(f0.c, .1/n)
 
     # Compute the influence function at each tau
