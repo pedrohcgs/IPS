@@ -6,18 +6,18 @@ complier.kde.gaussian <- function(x, p.eval, bw = "nrd0", adjust = 1,
   
  
   if(bw == "nrd0"){
-    bw <- stats::bw.nrd0(x)
+    bw_x <- stats::bw.nrd0(x)
   } else if(bw == "nrd"){
-    bw <- stats::bw.nrd(x)
+    bw_x <- stats::bw.nrd(x)
   } else   if(bw == "ucv"){
-    bw <- stats::bw.ucv(x)
+    bw_x <- stats::bw.ucv(x)
   } else if(bw == "bcv"){
-    bw <- stats::bw.bcv(x)
+    bw_x <- stats::bw.bcv(x)
   } else if(bw == "SJ"){
-    bw <- stats::bw.SJ(x)
+    bw_x <- stats::bw.SJ(x)
   } 
   
-  sd <-  bw(x) * adjust
+  sd <-  bw_x * adjust
   if (gaussian==TRUE){
   k.gaussian <- function(x, mean=0, sd=1){
     stats::dnorm(x, mean = mean, sd = sd)
