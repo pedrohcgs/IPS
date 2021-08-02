@@ -1,5 +1,5 @@
 complier.kde.gaussian <- function(x, p.eval, bw = stats::bw.nrd, adjust = 1,
-                                  whs = NULL, gaussian=T,
+                                  whs = NULL, gaussian=TRUE,
                                   ...) {
   n <- length(x)
   if(is.null(whs)) whs <- rep(1, n)
@@ -7,20 +7,20 @@ complier.kde.gaussian <- function(x, p.eval, bw = stats::bw.nrd, adjust = 1,
     bw <- stats::bw.nrd(x)
   }
   
-  if(bw = "nrd0"){
+  if(bw == "nrd0"){
     bw <- stats::bw.nrd0(x)
-  } else if(bw = "nrd"){
+  } else if(bw == "nrd"){
     bw <- stats::bw.nrd(x)
-  } else   if(bw = "ucv"){
+  } else   if(bw == "ucv"){
     bw <- stats::bw.ucv(x)
-  } else if(bw = "bcv"){
+  } else if(bw == "bcv"){
     bw <- stats::bw.bcv(x)
-  } else if(bw = "SJ"){
+  } else if(bw == "SJ"){
     bw <- stats::bw.SJ(x)
   } 
   
   sd <-  bw(x) * adjust
-  if (gaussian==T){
+  if (gaussian==TRUE){
   k.gaussian <- function(x, mean=0, sd=1){
     stats::dnorm(x, mean = mean, sd = sd)
   }

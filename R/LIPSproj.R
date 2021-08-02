@@ -10,6 +10,7 @@
 #' parameters should be provided. Deafault is TRUE.
 #' @param whs An optional \eqn{n} x \eqn{1} vector of weights to be used. If NULL, then every observation has the same weights.
 #' @param maxit The maximum number of iterations. Defaults to 50000.  = FALSE). Deafault is 999 if boot = TRUE
+#' @param x_keep Default is FALSE. If TRUE, we return covariate matrix in the output.
 #' @param allRows Default is FALSE, which attempts to fist check if all rows of the matrix x are unique. If there are draws, it tries to optimize the code, but requires 'x' to be sorted such that all unique rows are together. 
 #' 
 #' @return A list containing the following components:
@@ -18,7 +19,7 @@
 #' \item{linear.predictors}{The LIPS_proj estimated index (X'beta)}
 #' \item{lin.rep}{An estimator of the LIPS_proj coefficients' asymptotic linear representation}
 #' \item{converged}{An integer code. 0 indicates successful completion}
-#' \item{x}{The model matrix (i.e. the matrix of covariates used to estimate the LIPS_proj parameters)}
+#' \item{x}{The model matrix (i.e. the matrix of covariates used to estimate the LIPS_proj parameters). Only returned if \code{x_keep = TRUE}.}
 #'
 #'
 #' @references
@@ -30,9 +31,9 @@
 #-------------------------------------------------------------------------------
 LIPS_proj = function(z, d, x,
                     beta.initial = NULL, lin.rep = TRUE,
-                    whs = NULL,
+                    whs = NULL,  x_keep = FALSE,
                     maxit = 50000,
-                    allRows = F) {
+                    allRows = FALSE) {
   #-----------------------------------------------------------------------------
   # Define some underlying variables
   d <-  base::as.matrix(d)
@@ -125,7 +126,9 @@ LIPS_proj = function(z, d, x,
   
   if(converged!=0) base::warning("LIPS.proj: LIPS optmization did not converge.")
   
-  
+  if(x_keep != TRUE){
+    x = NULL
+  }
   
   out <- list(coefficients = beta.hat.ips,
               fitted.values = ips.hat,

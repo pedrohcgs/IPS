@@ -12,14 +12,15 @@
 #' parameters should be provided. Deafault is TRUE.
 #' @param whs An optional \eqn{n} x \eqn{1} vector of weights to be used. If NULL, then every observation has the same weights.
 #' @param maxit The maximum number of iterations. Defaults to 50000.  = FALSE). Deafault is 999 if boot = TRUE
-#'
+#' @param x_keep Default is FALSE. If TRUE, we return covariate matrix in the output.
+#' 
 #' @return A list containing the following components:
 #' \item{coefficients}{The estimated LIPS_exp coefficients}
 #' \item{fitted.values}{The LIPS_exp fitted probabilities}
 #' \item{linear.predictors}{The LIPS_exp estimated index (X'beta)}
 #' \item{lin.rep}{An estimator of the LIPS_exp coefficients' asymptotic linear representation}
 #' \item{converged}{An integer code. 0 indicates successful completion}
-#' \item{x}{The model matrix (i.e. the matrix of covariates used to estimate the LIPS_exp parameters)}
+#' \item{x}{The model matrix (i.e. the matrix of covariates used to estimate the LIPS_exp parameters). Only returned if \code{x_keep = TRUE}.}
 #'
 #'
 #' @references
@@ -32,7 +33,7 @@
 #-------------------------------------------------------------------------------
 LIPS_exp = function(z, d, x, X.trans = "normal", 
                    beta.initial = NULL, lin.rep = TRUE, 
-                   whs = NULL,
+                   whs = NULL,  x_keep = FALSE,
                    maxit = 50000) {
   #-----------------------------------------------------------------------------
   # Define some underlying variables
@@ -102,6 +103,9 @@ LIPS_exp = function(z, d, x, X.trans = "normal",
   }
   if(converged!=0) base::warning("LIPS.exp: IPS optmization did not converge.")
   
+  if(x_keep != TRUE){
+    x = NULL
+  }
   
   out <- list(coefficients = beta.hat.ips,
               fitted.values = ips.hat,
@@ -109,6 +113,6 @@ LIPS_exp = function(z, d, x, X.trans = "normal",
               lin.rep = lin.rep.hat,
               converged = converged,
               x = x
-              )
+  )
   return(out)
 }
