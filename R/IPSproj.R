@@ -4,6 +4,7 @@
 #'
 #' @param d An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.
 #' @param x An \eqn{n} x \eqn{k}  matrix of covariates to be used in the propensity score. First element must be a vector of 1's.
+#' @param xbal An \eqn{n} x \eqn{l}, \eqn{l\leq k}, matrix of ``raw'' covariares to be balanced (does not need to include interaction terms). Default is \code{NULL}, which will use the same as x. 
 #' @param Treated Default is FALSE, which aims to achieve covariate distribution balance among treated, untreated and overall subpopulations.
 #' If TRUE, then the estimator aims to achieve covariate distribution balance for the treated subpopulation.
 #' @param beta.initial An optional \eqn{k} x \eqn{1} vector of initial values for the parameters to be optimized over.
@@ -30,7 +31,7 @@
 #' @export
 
 #-------------------------------------------------------------------------------
-IPS_proj = function(d, x, Treated = FALSE,
+IPS_proj = function(d, x, xbal = NULL,Treated = FALSE,
                     beta.initial = NULL, lin.rep = TRUE,
                     whs = NULL,  x_keep = FALSE,
                     maxit = 50000,
@@ -46,22 +47,28 @@ IPS_proj = function(d, x, Treated = FALSE,
   if(!is.numeric(whs)) base::stop("weights must be a NULL or a numeric vector")
   #-----------------------------------------------------------------------------
   # FIRST ELEMENT OF X MUST BE A CONSTANT
-  if(all.equal(x[,1], rep(1,n)) == FALSE) {
+  if(all.equal(as.numeric(x[,1]), rep(1,n)) == FALSE) {
     stop(" first element of x must be a vector of 1's")
   }
   #-----------------------------------------------------------------------------
   #-----------------------------------------------------------------------------
   #Weight function based on prjection weights
-  data_ips <- cbind(d,x)
+  # data_ips <- cbind(d,x)
+  
+  if(is.null(xbal)) {
+    xbal <- x
+  } else {
+    xbal <- base::as.matrix(xbal)
+  }
   
   # Test if all observations are unique, as this allow us to speed up the codes
-  n.unique <- dplyr::n_distinct(x) 
+  n.unique <- dplyr::n_distinct(xbal) 
   
   if( ((n - n.unique) > 500) &&  allRows == FALSE) {
     #   use code that avoid number double calculations
-    x1 <- data.table::data.table(x)
+    x1 <- data.table::data.table(xbal)
     x1 <- data.table::data.table(x1, key = colnames(x1))
-    if(max(abs(x-x1))>0) {
+    if(max(abs(xbal-x1))>0) {
       stop("Matrix 'x' must be sorted such that all unique rows are together./n Otherwise set 'uniqueRows = T', though is usually slower.")
     }
     x_unique <- as.matrix(plyr::count(x1)[,-(dim(x1)[2]+1)])
@@ -70,7 +77,7 @@ IPS_proj = function(d, x, Treated = FALSE,
     
   }
   else {
-    w.proj <- weightIPSproj(x)
+    w.proj <- weightIPSproj(xbal)
   }
   
   #-----------------------------------------------------------------------------

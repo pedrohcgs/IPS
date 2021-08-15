@@ -4,6 +4,7 @@
 #'
 #' @param d An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.
 #' @param x An \eqn{n} x \eqn{k}  matrix of covariates to be used in the propensity score. First element must be a vector of 1's.
+#' @param xbal An \eqn{n} x \eqn{l}, \eqn{l\leq k}, matrix of ``raw'' covariares to be balanced (does not need to include interaction terms). Default is \code{NULL}, which will use the same as x. 
 #' @param Treated Default is FALSE, which aims to achieve covariate distribution balance among treated, untreated and overall subpopulations.
 #' If TRUE, then the estimator aims to achieve covariate distribution balance for the treated subpopulation.
 #' @param X.trans description of which transformation of covariates is used to enforce compactness.
@@ -31,7 +32,7 @@
 
 # Estimate IPS using logit link function
 #-------------------------------------------------------------------------------
-IPS_exp = function(d, x, X.trans = "normal", Treated = FALSE,
+IPS_exp = function(d, x, xbal = NULL, X.trans = "normal", Treated = FALSE,
                    beta.initial = NULL, lin.rep = TRUE,
                    whs = NULL, x_keep = FALSE,
                    maxit = 50000) {
@@ -46,12 +47,18 @@ IPS_exp = function(d, x, X.trans = "normal", Treated = FALSE,
   if(!is.numeric(whs)) base::stop("weights must be a NULL or a numeric vector")
   #-----------------------------------------------------------------------------
   # FIRST ELEMENT OF X MUST BE A CONSTANT
-  if(all.equal(x[,1], rep(1,n)) == FALSE) {
+  if(all.equal(as.numeric(x[,1]), rep(1,n)) == FALSE) {
     stop(" first element of x must be a vector of 1's")
   }
   #-----------------------------------------------------------------------------
   #Weight function based on exponential: exp{iu'phi(X)}
-  w.exp <- weightIPSexp(x[,-1], X.trans) 
+  if(is.null(xbal)) {
+    w.exp <- weightIPSexp(x[,-1], X.trans) 
+  } else {
+    xbal <- base::as.matrix(xbal)
+    w.exp <- weightIPSexp(xbal, X.trans) 
+  }
+  
   
   #-----------------------------------------------------------------------------
   # initial parameter value for IPS

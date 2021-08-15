@@ -7,6 +7,7 @@
 IPS_ind(
   d,
   x,
+  xbal = NULL,
   Treated = FALSE,
   beta.initial = NULL,
   lin.rep = TRUE,
@@ -18,7 +19,9 @@ IPS_ind(
 \arguments{
 \item{d}{An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.}
 
-\item{x}{An \eqn{n} x \eqn{k}  matrix of covariates to be used in the propensity score. First element must be a vector of 1's.}
+\item{x}{An \eqn{n} x \eqn{k}  matrix of covariates (potentially including interactions) to be used in the propensity score. First element must be a vector of 1's.}
+
+\item{xbal}{An \eqn{n} x \eqn{l}, \eqn{l\leq k}, matrix of ``raw'' covariares to be balanced (does not need to include interaction terms). Default is \code{NULL}, which will use the same as x.}
 
 \item{Treated}{Default is FALSE, which aims to achieve covariate distribution balance among treated, untreated and overall subpopulations.
 If TRUE, then the estimator aims to achieve covariate distribution balance for the treated subpopulation.}
