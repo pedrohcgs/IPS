@@ -1,7 +1,7 @@
 Package: IPS
 Type: Package
 Title: IPS: Covariate Distribution Balance via Integrated Propensity Scores
-Version: 0.1.5
+Version: 0.1.6
 Date: 2021-08-12
 Author: Pedro H. C. Sant'Anna <pedro.h.santanna@vanderbilt.edu>, Xiaojun Song
     <sxj@gsm.pku.edu.cn>, Qi Xu <qi.xu.1@vanderbilt.edu>
@@ -24,4 +24,4 @@ Imports:
     plyr
 LinkingTo: Rcpp, RcppArmadillo
 Encoding: UTF-8
-RoxygenNote: 7.1.1
+RoxygenNote: 7.1.2

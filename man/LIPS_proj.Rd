@@ -8,6 +8,7 @@ LIPS_proj(
   z,
   d,
   x,
+  xbal = NULL,
   beta.initial = NULL,
   lin.rep = TRUE,
   whs = NULL,
@@ -22,6 +23,8 @@ LIPS_proj(
 \item{d}{An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.}
 
 \item{x}{An \eqn{n} x \eqn{k}  matrix of covariates to be used in the propensity score. First element must be a vector of 1's.}
+
+\item{xbal}{An \eqn{n} x \eqn{l}, \eqn{l\leq k}, matrix of ``raw'' covariares to be balanced (does not need to include interaction terms). Default is \code{NULL}, which will use the same as x.}
 
 \item{beta.initial}{An optional \eqn{k} x \eqn{1} vector of initial values for the parameters to be optimized over.}
 

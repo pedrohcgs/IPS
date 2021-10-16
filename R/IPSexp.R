@@ -87,12 +87,12 @@ IPS_exp = function(d, x, xbal = NULL, X.trans = "normal", Treated = FALSE,
   converged <- ips.est.exp$convergence
   linear.predictors <- x %*% beta.hat.ips
   ps.hat <- as.numeric(1/(1 + exp(-linear.predictors)))
-  probs.min <- 1e-10
+  probs.min <- 1e-8
   if(base::any(ps.hat<probs.min)) {
-    base::message("IPS.exp: fitted probabilities smaller than 1e-10 occurred. We truncate these.")
+    base::message("IPS.exp: fitted probabilities smaller than 1e-8 occurred. We truncate these.")
   }
   if(base::any(ps.hat>(1-probs.min))) {
-    base::message("IPS.exp: fitted probabilities bigger than 1 - 1e-10 occurred. We truncate these.")
+    base::message("IPS.exp: fitted probabilities bigger than 1 - 1e-8 occurred. We truncate these.")
   }
   ps.hat <- base::pmin(1 - probs.min, ps.hat)
   ps.hat <- base::pmax(probs.min, ps.hat)

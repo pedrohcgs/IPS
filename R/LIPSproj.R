@@ -5,6 +5,7 @@
 #' @param z An \eqn{n} x \eqn{1} vector of binary instruments.
 #' @param d An \eqn{n} x \eqn{1} vector of binary treatment adoption indicators.
 #' @param x An \eqn{n} x \eqn{k}  matrix of covariates to be used in the propensity score. First element must be a vector of 1's.
+#' @param xbal An \eqn{n} x \eqn{l}, \eqn{l\leq k}, matrix of ``raw'' covariares to be balanced (does not need to include interaction terms). Default is \code{NULL}, which will use the same as x. 
 #' @param beta.initial An optional \eqn{k} x \eqn{1} vector of initial values for the parameters to be optimized over.
 #' @param lin.rep Logical argument to whether an estimator for the asymptotic linear representation of the LIPS
 #' parameters should be provided. Deafault is TRUE.
@@ -29,7 +30,7 @@
 #' @export
 
 #-------------------------------------------------------------------------------
-LIPS_proj = function(z, d, x,
+LIPS_proj = function(z, d, x, xbal = NULL,
                     beta.initial = NULL, lin.rep = TRUE,
                     whs = NULL,  x_keep = FALSE,
                     maxit = 50000,
@@ -52,17 +53,22 @@ LIPS_proj = function(z, d, x,
   #-----------------------------------------------------------------------------
   #-----------------------------------------------------------------------------
   #Weight function based on prjection weights
-  data_ips <- cbind(d,z,x)
+  # data_ips <- cbind(d,x)
+  
+  if(is.null(xbal)) {
+    xbal <- x
+  } else {
+    xbal <- base::as.matrix(xbal)
+  }
   
   # Test if all observations are unique, as this allow us to speed up the codes
+  n.unique <- dplyr::n_distinct(xbal) 
   
-  # Test if all observations are unique, as this allow us to speed up the codes
-  n.unique <- dplyr::n_distinct(x) 
-  if( ((n - n.unique) > 500) &&  allRows == F) {
+  if( ((n - n.unique) > 500) &&  allRows == FALSE) {
     #   use code that avoid number double calculations
-    x1 <- data.table::data.table(x)
+    x1 <- data.table::data.table(xbal)
     x1 <- data.table::data.table(x1, key = colnames(x1))
-    if(max(abs(x-x1))>0) {
+    if(max(abs(xbal-x1))>0) {
       stop("Matrix 'x' must be sorted such that all unique rows are together./n Otherwise set 'uniqueRows = T', though is usually slower.")
     }
     x_unique <- as.matrix(plyr::count(x1)[,-(dim(x1)[2]+1)])
@@ -71,11 +77,8 @@ LIPS_proj = function(z, d, x,
     
   }
   else {
-    w.proj <- weightIPSproj(x)
+    w.proj <- weightIPSproj(xbal)
   }
-  
-  
-  
   
   #-----------------------------------------------------------------------------
   # initial parameter value for LIPS
@@ -104,12 +107,12 @@ LIPS_proj = function(z, d, x,
   converged <- ips.est.proj$convergence
   linear.predictors <- x %*% beta.hat.ips
   ips.hat <- as.numeric(1/(1 + exp(-linear.predictors)))
-  probs.min <- 1e-10
+  probs.min <- 1e-8
   if(base::any(ips.hat<probs.min)) {
-    base::message("LIPS.proj: fitted probabilities smaller than 1e-10 occurred. We truncate these.")
+    base::message("LIPS.proj: fitted probabilities smaller than 1e-8 occurred. We truncate these.")
   }
   if(base::any(ips.hat>(1-probs.min))) {
-    base::message("LIPS.proj: fitted probabilities bigger than 1 - 1e-10 occurred. We truncate these.")
+    base::message("LIPS.proj: fitted probabilities bigger than 1 - 1e-8 occurred. We truncate these.")
   }
   ips.hat <- base::pmin(1 - probs.min, ips.hat)
   ips.hat <- base::pmax(probs.min, ips.hat)
