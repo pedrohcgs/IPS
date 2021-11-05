@@ -46,7 +46,7 @@ To install the most recent version of the `IPS` package from GitHub (this is wha
  If you are a macOS user and are facing issues installing our package, make sure you have Xcode installed in your machine. [Here is a detailed guidelines on how to compile Rcpp codes in macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/).
 ## Authors 
 
-Pedro H. C. Sant'Anna, Vanderbilt University, Nashville, TN. E-mail: pedro.h.santanna [at] vanderbilt [dot] edu.
+Pedro H. C. Sant'Anna, Microsoft (Seattle, WA) and Vanderbilt University (Nashville, TN). E-mail: pedro.h.santanna [at] vanderbilt [dot] edu or psantanna[at] microsoft.com
 
 Xiaojun Song, Peking University, Beijing, China. E-mail: sxj [at] gsm [dot] pku [dot] edu [dot] cn.
 
