@@ -42,7 +42,8 @@ To install the most recent version of the `IPS` package from GitHub (this is wha
 
         library(devtools)
         devtools::install_github("pedrohcgs/IPS")
-        
+
+ If you are a macOS user and are facing issues installing our package, make sure you have Xcode installed in your machine. [Here is a detailed guidelines on how to compile Rcpp codes in macOS](https://thecoatlessprofessor.com/programming/cpp/r-compiler-tools-for-rcpp-on-macos/).
 ## Authors 
 
 Pedro H. C. Sant'Anna, Vanderbilt University, Nashville, TN. E-mail: pedro.h.santanna [at] vanderbilt [dot] edu.
